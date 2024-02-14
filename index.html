@@ -1,10 +1,35 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title></title>
+    <title>hub</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="style/style.css" rel="stylesheet" />
+    <link rel="icon" href="images/icon.png" />
   </head>
-  <body></body>
+  <body>
+    <div class="todo">
+      <div class="todo-title">
+        <b><u>To-Do List</u></b>
+      </div>
+
+      <form id="enterTask">
+        Enter Description:
+        <textarea type="text" name="task" id="task" rows="1"> </textarea>
+        <button id="addTasks">Add</button>
+        <button id="resetTasks">Reset</button>
+        <button id="checkOffTasks">Remove Checked</button>
+        <button id="showCheckedTasks">Show Checked</button>
+      </form>
+
+      <ul id="taskList" class="noBullets">
+        <li class="individualTask">
+          <input type="checkbox" class="checkbox" \ />
+          <span>Test</span>
+          <button class="closeTask">Close</button>
+        </li>
+      </ul>
+    </div>
+    <script src="script.js"></script>
+  </body>
 </html>

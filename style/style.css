@@ -1,0 +1,33 @@
+body {
+  background-color: powderblue;
+}
+
+.todo {
+  display: flex;
+  flex-direction: column;
+  background-color: red;
+  width: 300px;
+}
+
+.todo-title {
+  display: flex;
+  justify-content: center;
+}
+
+.hidden {
+  display: none !important;
+}
+
+ul.noBullets {
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
+}
+
+li.individualTask {
+  display: flex;
+}
+
+button.closeTask {
+  margin-left: auto;
+}
