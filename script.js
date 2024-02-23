@@ -1,7 +1,6 @@
-
 /*
  TASKLIST SECTION
- **/
+*/
 
 const taskForm = document.getElementById('enterTask');
 const taskList = document.getElementById('taskList');
@@ -114,5 +113,26 @@ taskForm.addEventListener('submit', function (e) {
 /*
  WEATHER SECTION
  **/
+
+const zipCode = '20742,us';
+const measurementUnit = 'standard';
+const WEATHER_API_KEY = localStorage.getItem('WEATHER_API_KEY');
+const weatherAPIUrl = new URL('https://api.openweathermap.org/data/2.5/weather');
+
+const update = {
+  zip: zipCode,
+  units: measurementUnit,
+  appid: WEATHER_API_KEY,
+};
+
+for (let key in update) {
+  weatherAPIUrl.searchParams.append(key, update[key]);
+}
+
+const data = await fetch(weatherAPIUrl)
+.then(response => response.json())
+.catch(response => response.json()) 
+
+console.log(await data);
 
 
