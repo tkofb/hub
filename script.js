@@ -115,7 +115,7 @@ taskForm.addEventListener('submit', function (e) {
  **/
 
 const zipCode = '20742,us';
-const measurementUnit = 'standard';
+const measurementUnit = 'imperial';
 const WEATHER_API_KEY = localStorage.getItem('WEATHER_API_KEY');
 const weatherAPIUrl = new URL('https://api.openweathermap.org/data/2.5/weather');
 
@@ -133,6 +133,13 @@ const data = await fetch(weatherAPIUrl)
 .then(response => response.json())
 .catch(response => response.json()) 
 
-console.log(await data);
+console.log(data)
+console.log(data['main']['feels_like'])
+console.log(data['weather'][0]['main'])
+console.log(data['wind']['speed'])
+console.log(data['name'])
+console.log(data['sys']['country'])
+console.log(data['coord']['lat'])
+console.log(data['coord']['lon'])
 
 

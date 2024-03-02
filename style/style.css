@@ -5,11 +5,23 @@ body {
 .todo {
   display: flex;
   flex-direction: column;
-  background-color: red;
+  background-color: beige;
+  width: 300px;
+}
+
+.weather {
+  display: flex;
+  flex-direction: column;
+  background-color: lightgreen;
   width: 300px;
 }
 
 .todo-title {
+  display: flex;
+  justify-content: center;
+}
+
+.weather-title {
   display: flex;
   justify-content: center;
 }
