@@ -1,20 +1,26 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from "react";
+import { useState } from "react";
+import uncheckedIcon from "../../assets/unchecked.svg";
+import checkedIcon from "../../assets/checked.svg";
 import "./Task.css";
 
 function timeFromToday(dateString) {
   const today = new Date();
   const targetDate = new Date(dateString);
 
+  if (today > targetDate) {
+    return "Date Passed";
+  }
+
   let years = targetDate.getFullYear() - today.getFullYear();
   let months = targetDate.getMonth() - today.getMonth();
   let days = targetDate.getDate() - today.getDate() + 1;
 
-  if (years == 0 && months == 0){
+  if (years == 0 && months == 0) {
     if (days == 0) {
-      return "Today"
+      return "Today";
     } else if (days == 1) {
-      return "Tomorrow"
+      return "Tomorrow";
     }
   }
 
@@ -39,7 +45,6 @@ function timeFromToday(dateString) {
   if (days > 0 || parts.length === 0)
     parts.push(`${days} day${days === 1 ? "" : "s"}`);
 
-
   return parts.join(", ");
 }
 
@@ -48,19 +53,38 @@ const Task = (props) => {
   const [closed, setClosed] = useState(false);
 
   return (
-    <div className="task">
+    <div className={`task ${closed ? 'closed' : ''}`}>
       <div className="top">
         <div className="topHeading">
           <div className="title">{props.title}</div>
           <div className="description">{props.group}</div>
         </div>
-        {closed ? (
-          <button onClick={() => setClosed(false)}>x</button>
+        {!closed ? (
+          <div className="unchecked" onClick={() => setClosed(true)}>
+            <img
+              className="checkIcons"
+              src={uncheckedIcon}
+              alt="unchecked Icon"
+            />
+          </div>
         ) : (
-          <button onClick={() => setClosed(true)}>[]</button>
+          <div className="checked" onClick={() => setClosed(false)}>
+            <img
+              className="checkIcons"
+              src={checkedIcon}
+              alt="unchecked Icon"
+            />
+          </div>
         )}
       </div>
-      <div className="bottom">{timeFromToday(props.dueDate)}</div>
+      <hr />
+
+      <div className="bottom">
+        <div className="dayInWords">{timeFromToday(props.dueDate)}</div>
+        <div className={`impact ${props.impact.toLowerCase()}`}>
+          {props.impact}
+        </div>
+      </div>
     </div>
   );
 };
