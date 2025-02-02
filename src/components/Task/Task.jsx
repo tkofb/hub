@@ -1,66 +1,59 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
 import uncheckedIcon from "../../assets/unchecked.svg";
 import checkedIcon from "../../assets/checked.svg";
+import moment from "moment";
 import "./Task.css";
 
 function timeFromToday(dateString) {
-  const today = new Date();
-  const targetDate = new Date(dateString);
+  const today = moment().startOf("day"); // Normalize to start of the day
+  const targetDate = moment.utc(dateString, "YYYY-MM-DD"); // Parse as UTC
 
-  if (today > targetDate) {
+  const duration = moment.duration(targetDate.diff(today)); // Get precise duration
+
+  const diffYears = duration.years();
+  const diffMonths = duration.months();
+  const diffDays = Math.floor(duration.days()) + 1; // Exact remaining days
+
+  if (diffDays < 0) {
     return "Date Passed";
   }
 
-  let years = targetDate.getFullYear() - today.getFullYear();
-  let months = targetDate.getMonth() - today.getMonth();
-  let days = targetDate.getDate() - today.getDate() + 1;
-
-  if (years == 0 && months == 0) {
-    if (days == 0) {
-      return "Today";
-    } else if (days == 1) {
-      return "Tomorrow";
-    }
+  if (diffYears === 0 && diffMonths === 0) {
+    if (duration.hours() > -23 && duration.hours() <= 0) return "Today";
+    if (diffDays === 1) return "Tomorrow";
   }
 
-  if (days < 0) {
-    months -= 1;
-    const prevMonth = new Date(
-      targetDate.getFullYear(),
-      targetDate.getMonth(),
-      0
-    ); // Last day of the previous month
-    days += prevMonth.getDate();
-  }
-
-  if (months < 0) {
-    years -= 1;
-    months += 12;
+  if (today.isAfter(targetDate)) {
+    return "Date Passed";
   }
 
   let parts = [];
-  if (years > 0) parts.push(`${years} year${years === 1 ? "" : "s"}`);
-  if (months > 0) parts.push(`${months} month${months === 1 ? "" : "s"}`);
-  if (days > 0 || parts.length === 0)
-    parts.push(`${days} day${days === 1 ? "" : "s"}`);
+  if (diffYears > 0)
+    parts.push(`${diffYears} year${diffYears === 1 ? "" : "s"}`);
+  if (diffMonths > 0)
+    parts.push(`${diffMonths} month${diffMonths === 1 ? "" : "s"}`);
+  if (diffDays > 0 || parts.length === 0)
+    parts.push(`${diffDays} day${diffDays === 1 ? "" : "s"}`);
 
   return parts.join(", ");
 }
 
 const Task = (props) => {
   // <Task title={title} group={group} closed={closed} dueDate={dueDate}></Task>
-  const [closed, setClosed] = useState(false);
+  const closed = props.closed;
 
   return (
-    <div className={`task ${closed ? 'closed' : ''}`}>
+    <div className={`task ${closed ? "closed" : ""}`}>
       <div className="top">
         <div className="topHeading">
           <div className="title">{props.title}</div>
           <div className="description">{props.group}</div>
         </div>
         {!closed ? (
-          <div className="unchecked" onClick={() => setClosed(true)}>
+          <div className="unchecked" onClick={() => {
+            props.toggleTask(props.id)
+            props.closedLen((prevLen) => prevLen + 1)}}
+          >
             <img
               className="checkIcons"
               src={uncheckedIcon}
@@ -68,7 +61,13 @@ const Task = (props) => {
             />
           </div>
         ) : (
-          <div className="checked" onClick={() => setClosed(false)}>
+          <div
+            className="checked"
+            onClick={() => {
+              props.toggleTask(props.id);
+              props.closedLen((prevLen) => prevLen - 1);
+            }}
+          >
             <img
               className="checkIcons"
               src={checkedIcon}

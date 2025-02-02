@@ -4,7 +4,19 @@
   padding: 20px;
   border: black 1px solid;
   border-radius: 20px;
+  max-height: 90vh;
+  overflow: hidden;
 }
+
+.scroller {
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+.scroller::-webkit-scrollbar {
+  width: 0px;
+}
+
 
 .todoListTitle {
   margin: 0px;
