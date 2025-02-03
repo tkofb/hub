@@ -184,7 +184,7 @@ const TodoList = () => {
             <br />
           </div>
           <div className="groupHolder">
-            <label htmlFor="title">Group:</label>
+            <label htmlFor="group">Group:</label>
             <input {...register("group")} type="text" />
             <br />
           </div>

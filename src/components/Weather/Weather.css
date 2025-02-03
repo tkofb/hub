@@ -1,0 +1,27 @@
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: black 1px solid;
+  border-radius: 10px;
+  max-width: 450px;
+  padding: 20px;
+  justify-content: space-between;
+
+}
+
+.locationIcon {
+  width: 35px;
+  cursor: pointer;
+}
+
+.weatherIcon {
+  width: 50px;
+}
+
+#zipCode {
+  padding: 10px;
+  font-size: 14px;
+  border: black 1px solid;
+  border-radius: 10px;
+}
