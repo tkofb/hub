@@ -1,13 +1,18 @@
-.weatherInput {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.weather {
   border: black 1px solid;
   border-radius: 10px;
   max-width: 450px;
   padding: 20px;
-  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
 
+.weatherInput {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: space-between;
 }
 
 .locationIcon {
@@ -24,4 +29,51 @@
   font-size: 14px;
   border: black 1px solid;
   border-radius: 10px;
+}
+
+.tempAndConditions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.maxAndMin {
+  display: flex;
+  gap: 20px;
+  background-color: #eee;
+  border-radius: 20px;
+  padding: 10px 25px;
+
+  .max,
+  .min {
+    display: flex;
+    align-content: center;
+    img {
+      width: 20px;
+    }
+  }
+}
+
+.temperature .hourlyTemperature {
+  font-size: 70px;
+  text-align: center;
+
+  sup {
+    font-size: 35px;
+  }
+}
+
+.weatherConditions {
+  display: flex;
+  align-items: center;
+  max-height: 100px;
+
+  img {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.conditions {
+  display: flex;
 }
