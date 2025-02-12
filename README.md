@@ -23,10 +23,10 @@ npm run dev
 ## current widgets
 
 - #### to-do list
-	- ![](./public/todoListWidget.png)
-  - ![](./public/addTask.png)
+	![](./public/todoListWidget.png)
+  ![](./public/addTask.png)
 - #### weather
-	- ![](./public/weatherWidget.png)
+	![](./public/weatherWidget.png)
 
 ## planned widgets
 
