@@ -1,11 +1,13 @@
 .weather {
   border: black 1px solid;
-  border-radius: 10px;
-  max-width: 450px;
+  border-radius: 20px;
+  max-width: 500px;
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 10px;
+  background-color: #f9f9f9;
+
 }
 
 .weatherInput {
@@ -54,6 +56,7 @@
   }
 }
 
+
 .temperature .hourlyTemperature {
   font-size: 70px;
   text-align: center;
@@ -74,6 +77,29 @@
   }
 }
 
-.conditions {
+.conditions, .sunData {
   display: flex;
+  gap: 20px;
+  justify-content: center;
+
+  img {
+    width: 40px;
+  }
+
+  .wind, .uvi, .rainProbability, .sunrise, .sunset{
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 20px;
+  }
+}
+
+.sunData {
+  gap: 30px;
+}
+
+.rightSide {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }

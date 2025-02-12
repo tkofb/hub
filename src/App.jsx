@@ -5,10 +5,10 @@ import './App.css'
 function App() {
 
   return (
-    <>
-      {/* <TodoList></TodoList> */}
-      <Weather></Weather>
-    </>
+    <div className='hub'>
+      <TodoList></TodoList>
+      {/* <Weather></Weather> */}
+    </div>
   )
 }
 

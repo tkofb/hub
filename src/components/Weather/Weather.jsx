@@ -7,13 +7,17 @@ import moment from "moment-timezone";
 import { weatherCodeRep } from "./WeatherCodes";
 import upArrowIcon from "../../assets/up.svg";
 import downArrowIcon from "../../assets/down.svg";
+import { cardinalToIcon } from "./CardinalIcons";
+import uvIcon from "../../assets/uvIcon.svg";
+import rainIcon from "../../assets/rain.svg";
+import sunriseIcon from "../../assets/sunrise.svg";
+import sunsetIcon from "../../assets/sunset.svg";
 
 const Weather = () => {
-  const [currLat, setLat] = useState(null);
-  const [currLon, setLon] = useState(null);
   const [currLocation, setCurrLocation] = useState(null);
   const [weatherData, setWeatherData] = useState(null);
   const [currHour, setCurrHour] = useState(0);
+  const [currWeatherIcon, setWeatherIcon] = useState(weatherIcon)
 
   const getLonLatZip = async (zipCode) => {
     const url = `https://nominatim.openstreetmap.org/search?postalcode=${zipCode}&country=US&limit=1&format=json&addressdetails=1`;
@@ -107,9 +111,6 @@ const Weather = () => {
       },
       sun: sunData.results,
     };
-
-    setLat(lat);
-    setLon(lon);
     setWeatherData(weatherData);
   };
 
@@ -139,23 +140,31 @@ const Weather = () => {
 
   const zipCodeRef = useRef(null);
 
+  const angleToDirection = (angle) => {
+    const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    const index = Math.round(angle / 45) % 8;
+    return directions[index];
+  };
+
   const returnWeatherData = () => {
-    const hourly = weatherData.hourly
-    const daily = weatherData.daily
+    const hourly = weatherData.hourly;
+    const daily = weatherData.daily;
 
     console.log(weatherData);
     const weatherCodeDetails =
       weatherCodeRep[hourly.weatherCode[currHour]]["day"];
-    // console.log(weatherCodeDetails);
+    const windDirectionIcon =
+      cardinalToIcon[
+        angleToDirection(parseInt(hourly.windDirection10m[currHour], 10))
+      ];
+    console.log(currLocation);
+    const sunrise = weatherData.sun.sunrise;
+    const sunset = weatherData.sun.sunset;
 
     return (
       <div className="weatherDisplay">
         <div className="tempAndConditions">
           <div className="temperature">
-            <div className="location">
-              {currLocation["city"]},{" "}
-              {currLocation["ISO3166-2-lvl4"].split("-")[1]}
-            </div>
             <div className="hourlyTemperature">
               {parseInt(hourly.temperature2m[currHour], 10)}
               <sup>&deg;F</sup>
@@ -172,26 +181,40 @@ const Weather = () => {
             </div>
           </div>
 
-          <div className="conditions">
-            <div className="rainProbability">
-              {parseInt(hourly.precipitationProbability[currHour], 10)}
+          <div className="rightSide">
+            <div className="conditions">
+              <div className="rainProbability">
+                <img src={rainIcon} alt="rain icon" />
+                <span>
+                  {parseInt(hourly.precipitationProbability[currHour], 10)}%
+                </span>
+              </div>
+              <div className="wind">
+                <img src={windDirectionIcon} alt="wind direction icon" />
+                <span className="text">
+                  {parseInt(hourly.windSpeed10m[currHour], 10)} mph
+                </span>
+              </div>
+              <div className="uvi">
+                <img src={uvIcon} alt="uv index icon" />
+                UVI {parseInt(daily.uvIndexMax[currHour], 10)}
+              </div>
             </div>
-            <span>|</span>
-            <div className="wind">
-              Wind Direction: {parseInt(hourly.windDirection10m[currHour], 10)}
-              Wind Speed: {parseInt(hourly.windSpeed10m[currHour], 10)}
-            </div>
-            <span>|</span>
-            <div className="uvi">
-              {parseInt(daily.uvIndexMax[currHour], 10)}
+            <div className="sunData">
+              <div className="sunrise">
+                <img src={sunriseIcon} alt="sunrise Icon" />
+                {sunrise.split(":").slice(0, 2).join(":") +
+                  " " +
+                  sunrise.split(" ")[1]}
+              </div>
+              <div className="sunset">
+                <img src={sunsetIcon} alt="sunrise Icon" />
+                {sunset.split(":").slice(0, 2).join(":") +
+                  " " +
+                  sunset.split(" ")[1]}
+              </div>
             </div>
           </div>
-          {/* <div className="weatherConditions">
-            <img src={weatherCodeDetails.image} alt="weatherCodeIcon" />
-            <div className="weatherDescription">
-              {weatherCodeDetails.description}
-            </div>
-          </div> */}
         </div>
       </div>
     );
@@ -200,7 +223,7 @@ const Weather = () => {
   return (
     <div className="weather">
       <div className="weatherInput">
-        <img className="weatherIcon" src={weatherIcon} alt="locationIcon" />
+        <img className="weatherIcon" src={currWeatherIcon} alt="locationIcon" />
 
         <form onSubmit={handleSubmit}>
           <label htmlFor="zipCode">
